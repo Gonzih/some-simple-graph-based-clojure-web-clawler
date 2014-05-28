@@ -1,4 +1,4 @@
-(ns neo4j-crawler.graph
+(ns crawler.graph
   (:require [clojure.set :refer [union]]))
 
 (defrecord Node [id args])

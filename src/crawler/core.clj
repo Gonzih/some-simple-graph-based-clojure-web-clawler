@@ -1,6 +1,6 @@
-(ns neo4j-crawler.core
+(ns crawler.core
   (:require [net.cgrand.enlive-html :as html]
-            [neo4j-crawler.graph :as graph])
+            [crawler.graph :as graph])
   (:import [java.net URL]))
 
 (def visited (atom #{}))
