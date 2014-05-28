@@ -1,5 +1,6 @@
 (ns neo4j-crawler.core
-  (:require [net.cgrand.enlive-html :as html])
+  (:require [net.cgrand.enlive-html :as html]
+            [neo4j-crawler.graph :as graph])
   (:import [java.net URL]))
 
 (def visited (atom #{}))
@@ -11,9 +12,6 @@
     (swap! visited conj code)
     (-> url URL. html/html-resource
         (html/select [:body :a]))))
-
-(defn process-tag [tag]
-  (println (-> tag :attrs :href)))
 
 (def domain "www.lovesoltan.com")
 (def root "http://www.lovesoltan.com")
@@ -36,15 +34,3 @@
   (and (not (visited? s))
        (not (image-url? s))
        (current-domain? s)))
-
-(defn walk-row [urls]
-  (when (seq urls)
-    (let [tags (->> urls (map collect-hrefs) flatten)
-          new-urls (->> tags
-                        (map (comp :href :attrs))
-                        (map convert-local-url)
-                        (filter follow-url?))]
-      (doall (map process-tag tags))
-      (walk-row new-urls))))
-
-(walk-row [root])
