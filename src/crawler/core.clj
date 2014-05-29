@@ -10,6 +10,5 @@
   (let [resulting-graph (time (walker/walk-row (graph/init-graph)
                                                [{:current root :parent :none}]
                                                #{}
-                                               {:root root}))]
-    (println (json/graph->json resulting-graph)))
+                                               {:root root}))])
   (shutdown-agents))
