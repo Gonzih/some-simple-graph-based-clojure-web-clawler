@@ -27,26 +27,25 @@
 (defn prepare-edge [edge]
   edge)
 
-(defn distinct-by [fun coll]
-  (loop [fun fun
-         coll coll
-         result []
-         cache #{}]
-    (if (seq coll)
-      (let [item (first coll)
-            cache-value (fun item)]
-        (recur fun (rest coll)
-               (if (cache cache-value)
-                 result
-                 (conj result item))
-               (conj cache cache-value)))
-      result)))
+(defn merge-nodes [node1 node2]
+  (-> (merge node1 node2)
+      (assoc :args
+             (merge (:args node1)
+                    (:args node2)))))
+
+(def reduce-edges reduce-nodes)
+
+(defn reduce-nodes [coll]
+  (->> coll
+       (group-by :id)
+       vals
+       (map (partial reduce merge-nodes))))
 
 (defn graph->json [input-graph]
   (json/generate-string (-> input-graph
                             (assoc :nodes
                                    (map (partial prepare-node input-graph)
-                                        (distinct-by :id (:nodes input-graph))))
+                                        (reduce-nodes (:nodes input-graph))))
                             (assoc :edges
                                    (map prepare-edge
-                                        (distinct-by :id (:edges input-graph)))))))
+                                        (reduce-edges (:edges input-graph)))))))
