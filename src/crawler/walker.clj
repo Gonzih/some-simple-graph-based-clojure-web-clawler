@@ -35,16 +35,25 @@
       (str (.getHost url) ":" (.getPort url))
       (.getHost url))))
 
+(defn host-with-port-and-protocol [link]
+  (str (.getProtocol (URL. link))
+       "://"
+       (host-with-port link)))
+
 (defn current-domain? [current domain]
     (= (host-with-port current) domain))
 
 (defn image-url? [current]
   (re-find #"(jpg|png|jpeg)" current))
 
+(defn mailto-url? [current]
+  (re-find #"mailto:" current))
+
 (defn follow-url? [cache domain {:keys [current parent] :as data}]
   (and (not (nil? current))
        (not (visited? cache current))
        (not (image-url? current))
+       (not (mailto-url? current))
        (current-domain? current domain)))
 
 (defn tag-to-url-map [tag current response-code]
@@ -96,6 +105,7 @@
 (defn walk-row [graph urls cache {:keys [root]}]
   (if (seq urls)
     (let [domain (host-with-port root)
+          root (host-with-port-and-protocol root)
           pairs-of-graph-url (pmap build-graph-for-url urls)
           new-graphs (map first pairs-of-graph-url)
           new-urls (->> pairs-of-graph-url
