@@ -11,7 +11,7 @@
     "#000"))
 
 (defn node-label [node]
-  (str (:label (:args node)) " - " (:id node)))
+  (str (:label (:args node)) " " (:id node)))
 
 (defn prepare-node [input-graph node]
   (-> node

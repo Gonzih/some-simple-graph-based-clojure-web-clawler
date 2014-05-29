@@ -8,7 +8,7 @@
 
 (defn -main [& args]
   (let [resulting-graph (time (walker/walk-row (graph/init-graph)
-                                               [{:current root :parent :none}]
+                                               [{:current root :parent "start"}]
                                                #{}
                                                {:root root}))]
     (spit "tmp/data.json" (json/graph->json resulting-graph)))
