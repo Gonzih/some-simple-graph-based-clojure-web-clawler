@@ -9,11 +9,25 @@
 (defn relative-url? [s]
   (not (re-find #"https?://" s)))
 
+(defn remove-anchor [string]
+  (let [url (URL. string)]
+    (str
+      (.getProtocol url)
+      "://"
+      (.getHost url)
+      (when (.getPort url)
+        (str ":" (.getPort url)))
+      (.getPath url)
+      (when (.getQuery url)
+        (str "?" (.getQuery url))))))
+
+(-> "http://docs.oracle.com/javase/7/docs/api/java/net/URL.html?a=b&c=d#oue" URL. .getPath)
+
 (defn convert-relative-url [root {:keys [current parent] :as data}]
   (let [new-current (if (relative-url? current)
                       (str root current)
                       current)]
-    (assoc data :current new-current)))
+    (assoc data :current (remove-anchor new-current))))
 
 (defn host-with-port [link]
   (let [url (URL. link)]
