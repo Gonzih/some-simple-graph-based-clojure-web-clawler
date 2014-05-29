@@ -35,14 +35,3 @@
 
 (defn init-graph []
   (Graph. #{} #{}))
-
-(let [g1 (-> (init-graph)
-             (create-node "page" )
-             (create-node "page2" {:title "A"})
-             (create-rel "page" "page2"))
-      g2 (-> (init-graph)
-             (create-node "booboo")
-             (create-node "meemee")
-             (create-node "page")
-             (create-rel "page" "page2"))]
-  (merge-graphs g1 g2))
