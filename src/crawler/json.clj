@@ -6,8 +6,8 @@
   (case (-> node :args :response-code)
     200 "#0f0"
     500 "#f00"
-    404 "#e00000"
-    nil "#eeeeee"
+    404 "#00f"
+    nil "#fefefe"
     "#000"))
 
 (defn node-label [node]
