@@ -11,8 +11,7 @@
     "#000"))
 
 (defn node-label [node]
-  (or (:label node)
-      (:id node)))
+  (str (:label (:args node)) " - " (:id node)))
 
 (defn prepare-node [input-graph node]
   (-> node
@@ -21,8 +20,7 @@
       (assoc :y (rand 20))
       (assoc :size (+ (count (graph/edges-from input-graph node))
                       (count (graph/edges-to   input-graph node))))
-      (assoc :color (node-color node))
-      (merge (:args node))))
+      (assoc :color (node-color node))))
 
 (defn prepare-edge [edge]
   edge)

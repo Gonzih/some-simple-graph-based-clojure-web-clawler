@@ -87,7 +87,7 @@
                   (graph/create-node current
                                      {:response-code response-code})
                   (graph/create-node parent)
-                  (graph/create-rel current parent))]
+                  (graph/create-rel current parent {:link-text link-text}))]
   [graph []]))
 
 (defn build-graph-for-url [{:keys [current parent link-text]}]
