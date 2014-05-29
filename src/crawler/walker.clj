@@ -91,6 +91,7 @@
   [graph []]))
 
 (defn build-graph-for-url [{:keys [current parent link-text]}]
+  (println "Collection data from \"" current "\"")
   (try
     (let [url (URL. current)
           connection (.openConnection url)
