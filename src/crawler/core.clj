@@ -10,5 +10,6 @@
   (let [resulting-graph (time (walker/walk-row (graph/init-graph)
                                                [{:current root :parent :none}]
                                                #{}
-                                               {:root root}))])
+                                               {:root root}))]
+    (spit "tmp/data.json" (json/graph->json resulting-graph)))
   (shutdown-agents))

@@ -54,16 +54,15 @@
              (-> (graph/init-graph)
                  (graph/create-node current
                                     {:response-code response-code
-                                     :label link-text})
+                                     :label title})
                  (graph/create-node parent)
-                 (graph/create-rel current parent)))]
+                 (graph/create-rel parent current {:link-text link-text})))]
     [graph urls]))
 
 (defn build-graph-for-non-200 [current parent connection link-text response-code]
   (let [graph (-> (graph/init-graph)
                   (graph/create-node current
-                                     {:response-code response-code
-                                      :link-text link-text})
+                                     {:response-code response-code})
                   (graph/create-node parent)
                   (graph/create-rel current parent))]
   [graph []]))

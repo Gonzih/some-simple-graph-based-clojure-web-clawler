@@ -2,7 +2,7 @@
   (:require [clojure.set :refer [union]]))
 
 (defrecord Node [id args])
-(defrecord Relation [source target args])
+(defrecord Edge [id source target args])
 
 (defprotocol GraphP
   (merge-graphs [this other])
@@ -30,8 +30,8 @@
     (assoc this :edges
            (conj
              (:edges this)
-             (Relation. source target args)
-             (Relation. target source args)))))
+             (Edge. (str source "->" target)
+                    source target args)))))
 
 (defn init-graph []
   (Graph. #{} #{}))
