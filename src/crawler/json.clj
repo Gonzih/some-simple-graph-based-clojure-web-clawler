@@ -33,13 +33,13 @@
              (merge (:args node1)
                     (:args node2)))))
 
-(def reduce-edges reduce-nodes)
-
 (defn reduce-nodes [coll]
   (->> coll
        (group-by :id)
        vals
        (map (partial reduce merge-nodes))))
+
+(def reduce-edges reduce-nodes)
 
 (defn graph->json [input-graph]
   (json/generate-string (-> input-graph
