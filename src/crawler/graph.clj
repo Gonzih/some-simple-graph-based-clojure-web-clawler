@@ -11,13 +11,13 @@
   (create-rel [this source target]
               [this source target args]))
 
-(defrecord Graph [nodes relations]
+(defrecord Graph [nodes edges]
   GraphP
   (merge-graphs [this other]
     (Graph. (union (:nodes this)
                    (:nodes other))
-            (union (:relations this)
-                   (:relations other))))
+            (union (:edges this)
+                   (:edges other))))
   (create-node [this id]
     (create-node this id {}))
   (create-node [this id args]
@@ -27,9 +27,9 @@
   (create-rel [this source target]
     (create-rel this source target {}))
   (create-rel [this source target args]
-    (assoc this :relations
+    (assoc this :edges
            (conj
-             (:relations this)
+             (:edges this)
              (Relation. source target args)
              (Relation. target source args)))))
 
