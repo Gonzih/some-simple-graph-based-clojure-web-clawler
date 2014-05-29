@@ -6,10 +6,12 @@
 
 (def root "http://localhost:4000/")
 
+(def walk (memoize walker/walk-row))
+
 (defn -main [& args]
-  (let [resulting-graph (time (walker/walk-row (graph/init-graph)
-                                               [{:current root :parent "start"}]
-                                               #{}
-                                               {:root root}))]
+  (let [resulting-graph (time (walk (graph/init-graph)
+                                    [{:current root :parent "start"}]
+                                    #{}
+                                    {:root root}))]
     (spit "tmp/data.json" (json/graph->json resulting-graph)))
   (shutdown-agents))
