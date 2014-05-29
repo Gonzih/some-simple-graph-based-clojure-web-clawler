@@ -15,7 +15,7 @@
       (.getProtocol url)
       "://"
       (.getHost url)
-      (when (.getPort url)
+      (when (> (.getPort url) 0)
         (str ":" (.getPort url)))
       (.getPath url)
       (when (.getQuery url)
