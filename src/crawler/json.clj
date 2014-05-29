@@ -2,15 +2,26 @@
   (:require [cheshire.core :as json]
             [crawler.graph :as graph]))
 
+(defn node-color [node]
+  (case (-> node :args :response-code)
+    200 "#0f0"
+    500 "#f00"
+    404 "#e00000"
+    nil "#eeeeee"
+    "#000"))
+
+(defn node-label [node]
+  (or (:label node)
+      (:id node)))
+
 (defn prepare-node [input-graph node]
   (-> node
+      (assoc :label (node-label node))
       (assoc :x (rand 20))
       (assoc :y (rand 20))
       (assoc :size (+ (count (graph/edges-from input-graph node))
                       (count (graph/edges-to   input-graph node))))
-      (assoc :color (if (= 200 (-> node :args :response-code))
-                      "#0f0"
-                      "#f00"))
+      (assoc :color (node-color node))
       (merge (:args node))))
 
 (defn prepare-edge [edge]
