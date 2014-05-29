@@ -54,7 +54,7 @@
              (-> (graph/init-graph)
                  (graph/create-node current
                                     {:response-code response-code
-                                     :link-text link-text})
+                                     :label link-text})
                  (graph/create-node parent)
                  (graph/create-rel current parent)))]
     [graph urls]))

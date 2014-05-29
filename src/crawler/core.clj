@@ -1,14 +1,15 @@
 (ns crawler.core
-  (:require [cheshire.core :as json]
-            [clojure.pprint :refer [pprint]]
+  (:require [clojure.pprint :refer [pprint]]
             [crawler.walker :as walker]
-            [crawler.graph :as graph]))
+            [crawler.graph :as graph]
+            [crawler.json :as json]))
 
 (def root "http://localhost:4000")
 
 (defn -main [& args]
-  (pprint (walker/walk-row (graph/init-graph)
-                           [{:current root :parent :none}]
-                           #{}
-                           {:root root}))
+  (let [resulting-graph (time (walker/walk-row (graph/init-graph)
+                                               [{:current root :parent :none}]
+                                               #{}
+                                               {:root root}))]
+    (println (json/graph->json resulting-graph)))
   (shutdown-agents))
