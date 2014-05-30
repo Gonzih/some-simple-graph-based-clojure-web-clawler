@@ -13,5 +13,5 @@
                                     [{:current root :parent "start"}]
                                     #{}
                                     {:root root}))]
-    (spit "tmp/data.json" (json/graph->json resulting-graph)))
+    (spit "data/data.json" (json/graph->json resulting-graph)))
   (shutdown-agents))

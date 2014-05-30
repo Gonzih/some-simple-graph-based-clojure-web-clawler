@@ -7,4 +7,5 @@
                  [cheshire "5.3.1"]
                  [enlive "1.1.5"]
                  [org.clojure/tools.logging "0.2.6"]]
+  :plugins [[lein-simpleton "1.3.0"]]
   :main crawler.core)
