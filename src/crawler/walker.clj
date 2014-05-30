@@ -6,7 +6,7 @@
             [clojure.tools.logging :refer [info error]])
   (:import [java.net URL]))
 
-(defn visited? [cache s] (cache s))
+(defn visited? [cache s] (cache (.hashCode s)))
 
 (defn relative-url? [s]
   (not (re-find #"https?://" (str s))))
@@ -116,6 +116,6 @@
                         (filter (partial follow-url? cache domain))
                         (distinct-by :current))
           new-graph (reduce graph/merge-graphs graph new-graphs)
-          new-cache (into cache (map :current urls))]
+          new-cache (into cache (map (comp #(.hashCode %) :current) urls))]
       (recur new-graph new-urls new-cache {:root root}))
     graph))
