@@ -21,8 +21,6 @@
       (when (.getQuery url)
         (str "?" (.getQuery url))))))
 
-(-> "http://docs.oracle.com/javase/7/docs/api/java/net/URL.html?a=b&c=d#oue" URL. .getPath)
-
 (defn convert-relative-url [root {:keys [current parent] :as data}]
   (let [new-current (if (relative-url? current)
                       (str root current)
