@@ -113,7 +113,8 @@
                         (map second)
                         flatten
                         (map (partial convert-relative-url root))
-                        (filter (partial follow-url? cache domain)))
+                        (filter (partial follow-url? cache domain))
+                        (distinct-by :current))
           new-graph (reduce graph/merge-graphs graph new-graphs)
           new-cache (into cache (map :current urls))]
       (recur new-graph new-urls new-cache {:root root}))
