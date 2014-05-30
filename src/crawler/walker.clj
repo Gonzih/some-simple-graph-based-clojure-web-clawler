@@ -9,7 +9,7 @@
 (defn visited? [cache s] (cache s))
 
 (defn relative-url? [s]
-  (not (re-find #"https?://" s)))
+  (not (re-find #"https?://" (str s))))
 
 (defn remove-anchor [string]
   (let [url (URL. string)]
@@ -43,8 +43,8 @@
 (defn current-domain? [current domain]
     (= (host-with-port current) domain))
 
-(defn image-url? [current]
-  (re-find #"(jpg|png|jpeg)" current))
+(defn allowed-ft-url? [current]
+  (not (re-find #"\.(jpg|png|jpeg|pdf|gif)" current)))
 
 (defn mailto-url? [current]
   (re-find #"mailto:" current))
@@ -52,7 +52,7 @@
 (defn follow-url? [cache domain {:keys [current parent] :as data}]
   (and (not (nil? current))
        (not (visited? cache current))
-       (not (image-url? current))
+       (allowed-ft-url? current)
        (not (mailto-url? current))
        (current-domain? current domain)))
 
