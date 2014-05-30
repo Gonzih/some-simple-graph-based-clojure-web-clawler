@@ -1,6 +1,6 @@
-# neo4j-crawler
+# crawler
 
-A Clojure library designed to ... well, that part is up to you.
+Simple web crawler
 
 ## Usage
 
