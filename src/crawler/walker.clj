@@ -3,8 +3,10 @@
             [crawler.graph :as graph]
             [clojure.pprint :refer [pprint]]
             [crawler.util :refer [distinct-by]]
-            [clojure.tools.logging :refer [info error]])
+            [clojure.tools.logging :refer [info error]]
+            [clojure.string :as string])
   (:import [java.net URL]))
+
 
 (defn visited? [cache s] (cache (.hashCode s)))
 
@@ -60,7 +62,7 @@
   (let [content (apply str (:content tag))
         url (-> tag :attrs :href)]
     {:parent current
-     :current url
+     :current (string/trim url)
      :link-text content}))
 
 (defn build-graph-for-200 [current parent connection link-text response-code]
