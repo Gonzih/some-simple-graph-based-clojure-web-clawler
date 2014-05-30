@@ -1,7 +1,9 @@
 (ns crawler.walker
   (:require [net.cgrand.enlive-html :as html]
             [crawler.graph :as graph]
-            [clojure.pprint :refer [pprint]])
+            [clojure.pprint :refer [pprint]]
+            [crawler.util :refer [distinct-by]]
+            [clojure.tools.logging :refer [info error]])
   (:import [java.net URL]))
 
 (defn visited? [cache s] (cache s))
@@ -89,7 +91,7 @@
   [graph []]))
 
 (defn build-graph-for-url [{:keys [current parent link-text]}]
-  (println "Collection data from \"" current "\"")
+  (info "Collection data from \"" current "\"")
   (try
     (let [url (URL. current)
           connection (.openConnection url)
@@ -98,7 +100,7 @@
         (build-graph-for-200 current parent connection link-text response-code)
         (build-graph-for-non-200 current parent connection link-text response-code)))
     (catch Exception e
-      (println "Exception " e " while parsing " current)
+      (info "Exception " e " while parsing " current)
       (throw e))))
 
 (defn walk-row [graph urls cache {:keys [root]}]

@@ -5,5 +5,6 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [cheshire "5.3.1"]
-                 [enlive "1.1.5"]]
+                 [enlive "1.1.5"]
+                 [org.clojure/tools.logging "0.2.6"]]
   :main crawler.core)
